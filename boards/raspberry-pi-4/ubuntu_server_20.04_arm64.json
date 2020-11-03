@@ -40,7 +40,63 @@
       "inline": [
         "touch /tmp/test"
       ]
+    },
+    {
+        "type": "shell",
+        "execute_command": "{{.Vars}} sudo -E -S bash '{{.Path}}'",
+        "scripts": [
+          "{{template_dir}}/../../modules/scripts/install-core.sh",
+          "{{template_dir}}/../../modules/scripts/install-docker.sh"
+        ]
+    },
+    {
+      "type": "shell",
+      "inline": ["mkdir -p /opt/modules"]
+    },
+    {
+      "type": "file",
+      "source": "{{template_dir}}/../../modules/",
+      "destination": "/opt/modules"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "ls -la /opt/modules/",
+        "/opt/modules/install-consul/install-consul --version 1.9.0-beta1",
+        "/opt/modules/install-nomad/install-nomad --version 0.12.7",
+        "/opt/modules/install-vault/install-vault --version 1.5.5"
+      ]
     }
+    // {
+    //     "type": "shell",
+    //     "inline": [
+    //       "/opt/modules/scripts/squashfs.sh"
+    //     ]
+    // },
+    // {
+    //   "type": "file",
+    //   "direction": "download",
+    //   "sources": [
+    //     "/squashfs/vmlinuz"
+    //   ],
+    //   "destination": "output/{{user `name`}}-squashfs/{{user `name`}}.vmlinuz"
+    // },
+    // {
+    //   "type": "file",
+    //   "direction": "download",
+    //   "sources": [
+    //     "/squashfs/initrd.img"
+    //   ],
+    //   "destination": "output/{{user `name`}}-squashfs/{{user `name`}}.initrd"
+    // },
+    // {
+    //   "type": "file",
+    //   "direction": "download",
+    //   "sources": [
+    //     "/squashfs/filesystem.squashfs"
+    //   ],
+    //   "destination": "output/{{user `name`}}-squashfs/{{user `name`}}.squashfs"
+    // }
   ],
   "post-processors": []
 }
